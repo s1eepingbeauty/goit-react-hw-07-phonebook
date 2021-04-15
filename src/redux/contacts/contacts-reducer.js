@@ -25,10 +25,7 @@ const initialState = [
   },
 ];
 
-const contactsList = localStorage.getItem('contacts');
-const parsedContactsList = JSON.parse(contactsList);
-
-const items = createReducer(parsedContactsList || initialState, {
+const items = createReducer([], {
   [actions.addContact]: (state, { payload }) => [...state, payload],
   [actions.deleteContact]: (state, { payload }) => state.filter(({ id }) => id !== payload),
 });
