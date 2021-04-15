@@ -1,45 +1,37 @@
-import actionTypes from './contacts-types';
+import { createAction } from '@reduxjs/toolkit';
 
-const addContact = (newContact) => ({
-  type: actionTypes.ADD,
-  payload: newContact,
+const addContact = createAction('contacts/add');
+const deleteContact = createAction('contacts/delete');
+const filterContacts = createAction('contacts/filter');
+
+const postData = createAction('contacts/post', (data) => {
+  return {
+    payload: {
+      request: [data],
+      success: false,
+      error: null,
+    },
+  }
 });
 
-const deleteContact = (id) => ({
-  type: actionTypes.DELETE,
-  payload: id,
+const getData = createAction('contacts/get', (data) => {
+  return {
+    payload: {
+      request: [data],
+      success: false,
+      error: null,
+    },
+  }
 });
 
-const filterContacts = (filter) => ({
-  type: actionTypes.FILTER,
-  payload: filter,
-});
-
-const postData = (data) => ({
-  type: actionTypes.POST,
-  payload: {
-    request: [data],
-    success: false,
-    error: null,
-  },
-});
-
-const getData = (data) => ({
-  type: actionTypes.GET,
-  payload: {
-    request: [data],
-    success: false,
-    error: null,
-  },
-});
-
-const deleteData = (id) => ({
-  type: actionTypes.DELETE,
-  payload: {
-    request: id,
-    success: false,
-    error: null,
-  },
+const deleteData = createAction('contacts/delete_contact', (id) => {
+  return {
+    payload: {
+      request: id,
+      success: false,
+      error: null,
+    },
+  }
 });
 
 export { addContact, deleteContact, filterContacts, postData, getData, deleteData };
