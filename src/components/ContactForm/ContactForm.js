@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getContacts } from '../../redux/contacts/contacts-selectors';
-import { addContact } from '../../redux/contacts/contacts-actions';
-import { v4 as uuid } from 'uuid';
+import {
+  addContact,
+  fetchContacts,
+} from '../../redux/contacts/contacts-operations';
 import styles from './styles.module.css';
 
 const INITIAL_STATE = {
@@ -15,6 +17,10 @@ const ContactForm = () => {
   const [number, setNumber] = useState(INITIAL_STATE.number);
   const contacts = useSelector(getContacts);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   const handleChangeForm = ({ target }) => {
     const { name, value } = target;
@@ -30,14 +36,13 @@ const ContactForm = () => {
     }
   };
 
-  const handleSubmitForm = (e) => {
+  const handleSubmitForm = e => {
     e.preventDefault();
 
     const isValidatedForm = validateForm();
     if (!isValidatedForm) return;
 
     const newContact = {
-      id: uuid(),
       name,
       number,
     };
@@ -46,8 +51,8 @@ const ContactForm = () => {
     resetForm();
   };
 
-  const onCheckUnique = (name) => {
-    const isExistContact = !!contacts.find((contact) => contact.name === name);
+  const onCheckUnique = name => {
+    const isExistContact = !!contacts.find(contact => contact.name === name);
     isExistContact && alert(`Contact ${name} is already exist!`);
     return !isExistContact;
   };

@@ -27,7 +27,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "prettier": "prettier --write src/**/*.js",
-    "server": "json-server --port 4040 --delay 300 --watch db.json"
+    "api-server": "json-server --port 4040 --delay 300 --watch db.json"
   },
   "eslintConfig": {
     "extends": [

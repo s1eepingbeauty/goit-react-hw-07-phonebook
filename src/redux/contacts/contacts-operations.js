@@ -1,31 +1,38 @@
 import axios from 'axios';
-import { getData, postData, deleteData } from './contacts-actions';
-//Напиши Redux-операции для работы с асинхронными запросами по паттерну request, success и error.
+import {
+  addContactRequest,
+  addContactSuccess,
+  addContactError,
+  deleteContactRequest,
+  deleteContactSuccess,
+  deleteContactError,
+  fetchContactsRequest,
+  fetchContactsSuccess,
+  fetchContactsError,
+} from './contacts-actions';
 
 axios.defaults.baseURL = 'http://localhost:4040';
 
-const fetchContactsList = () => (dispatch) => {
-  dispatch(getData.payload.request());
+export const fetchContacts = () => dispatch => {
+  dispatch(fetchContactsRequest());
   axios
     .get('/contacts')
-    .then(({ data }) => dispatch(getData.payload.success(data)))
-    .catch((error) => dispatch(getData.payload.error(error)));
+    .then(({ data }) => dispatch(fetchContactsSuccess(data)))
+    .catch(error => dispatch(fetchContactsError(error)));
 };
 
-const fetchAddContact = (newContact) => (dispatch) => {
-  dispatch(postData.payload.request());
+export const addContact = newContact => dispatch => {
+  dispatch(addContactRequest());
   axios
     .post('/contacts', newContact)
-    .then(({ data }) => dispatch(postData.payload.success(data)))
-    .catch((error) => dispatch(postData.payload.error(error)));
+    .then(({ data }) => dispatch(addContactSuccess(data)))
+    .catch(error => dispatch(addContactError(error)));
 };
 
-const fetchDeleteContact = (id) => (dispatch) => {
-  dispatch(deleteData.preload.request());
+export const deleteContact = id => dispatch => {
+  dispatch(deleteContactRequest());
   axios
     .delete(`/contacts/${id}`)
-    .then(() => dispatch(deleteData.preload.success(id)))
-    .catch((error) => dispatch(deleteData.preload.error(error)));
+    .then(() => dispatch(deleteContactSuccess(id)))
+    .catch(error => dispatch(deleteContactError(error)));
 };
-
-export { fetchContactsList, fetchAddContact, fetchDeleteContact };

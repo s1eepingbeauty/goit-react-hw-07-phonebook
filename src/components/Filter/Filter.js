@@ -7,7 +7,7 @@ const Filter = () => {
   const filter = useSelector(getFilter);
   const dispatch = useDispatch();
 
-  const addFilter = (value) => {
+  const addFilter = value => {
     dispatch(filterContacts(value.toLowerCase()));
   };
 
